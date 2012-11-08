@@ -36,9 +36,18 @@ nav ul, nav li {
 }
 
 .content {
-	width: 400px;
+	width: 960px;
 	margin: 0 auto;	
 	overflow: auto;
+	height:500px;
+}
+
+.content nav {
+	margin-left:145px;
+}
+
+.content nav ul {
+	list-style: none;
 }
 
 .content nav a {
@@ -51,7 +60,7 @@ nav ul, nav li {
 	border-radius: 5px;
 	text-decoration: none;
 	float: left;
-	margin:10px;
+	margin:10px 25px 10px 10px;
 }
 
 .content nav a:hover {
