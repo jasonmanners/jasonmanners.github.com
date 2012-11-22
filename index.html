@@ -94,10 +94,10 @@
 			#background {
 				z-index: -1;
 				position: absolute;
-				top:0;
-				bottom:0;
+				top:50px;
 				left:0;
 				right:0;
+				bottom:25px;
 			}
 
 			#content {
@@ -150,24 +150,28 @@
 				var bg = $('#background');
 				var context = bg[0].getContext('2d');
 				
-				bg.attr({width:window.innerWidth,height:innerHeight})
+				bg.attr({width:window.innerWidth,height:innerHeight-75})
 
 				
-	  		context.save();
-	  			context.fillStyle = "rgba(255,255,255,0.3)";
-	  			context.beginPath();
-			      context.arc(200, 200, 30, 0, Math.PI*2, true); //*2
-			    context.fill();
-	  		context.restore();
+				function drawSphere(x,y,r) {
+					context.save();
+		  			context.fillStyle = "rgba(255,255,255,0.3)";
+		  			context.beginPath();
+				      context.arc(x, y, r+r, 0, Math.PI*2, true); //*2
+				    context.fill();
+		  		context.restore();
 
-	  		context.save();
-	  			context.fillStyle = "rgba(255,255,255,0.8)";
-	  			context.beginPath();
-			      context.arc(200, 200, 15, 0, Math.PI*2, true); //*2
-			    context.fill();
-	  		context.restore();
-
-	  		console.log('Hi')
+		  		context.save();
+		  			context.fillStyle = "rgba(255,255,255,0.8)";
+		  			context.beginPath();
+				      context.arc(x, y, r, 0, Math.PI*2, true); //*2
+				    context.fill();
+		  		context.restore();
+				}
+	  		
+				for(var i = 0; i < 20; i++){
+					drawSphere(Math.random()*window.innerWidth,Math.random()*(innerHeight-75),Math.random()*10 + 5);	
+				}
 	  	});
 		</script>
 	</body>
