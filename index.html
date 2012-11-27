@@ -9,6 +9,9 @@
 		// window.$ = function(f){ window.__f.push(f);};
 		</script>
 
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script src="js/home/index.js"></script>
+
 		<style>
 			@font-face {
 				font-family: 'Roboto';
@@ -111,7 +114,7 @@
 			.title {
 				color: rgba(0,0,0,0.83);
 				margin: 150px auto;
-				width: 800px;
+				width: 100%;
 				text-align: center;
 			}
 
@@ -144,36 +147,7 @@
 		<footer>
 		</footer>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script>
-			$(function(){
-				var bg = $('#background');
-				var context = bg[0].getContext('2d');
-				
-				bg.attr({width:window.innerWidth,height:innerHeight-75})
-
-				
-				function drawSphere(x,y,r) {
-					context.save();
-		  			context.fillStyle = "rgba(255,255,255,0.3)";
-		  			context.beginPath();
-				      context.arc(x, y, r+r, 0, Math.PI*2, true); //*2
-				    context.fill();
-		  		context.restore();
-
-		  		context.save();
-		  			context.fillStyle = "rgba(255,255,255,0.8)";
-		  			context.beginPath();
-				      context.arc(x, y, r, 0, Math.PI*2, true); //*2
-				    context.fill();
-		  		context.restore();
-				}
-	  		
-				for(var i = 0; i < 20; i++){
-					drawSphere(Math.random()*window.innerWidth,Math.random()*(innerHeight-75),Math.random()*10 + 5);	
-				}
-	  	});
-		</script>
+		
 	</body>
 </html>
 
