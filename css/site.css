@@ -11,7 +11,7 @@
 
 @font-face {
 	font-family: 'Roboto';
-	src: url('/css/fonts/Roboto-Light.ttf') format('truetype');
+	src: url('fonts/Roboto-Light.ttf') format('truetype');
 	font-weight: thin;
 	font-style: normal;
 }
