@@ -70,12 +70,13 @@ var Canvas2D = Base.extend({
 	init : function(id,options) {
 		this.el = $('#'+id);
 		this.context = this.el[0].getContext('2d');
-		
 		if(options.width) {
+      this.width = options.width
 			this.el.attr({width: options.width})
 		}
 
 		if(options.height) {
+      this.height = options.height
 			this.el.attr({height: options.height})
 		}
 	},
@@ -84,9 +85,41 @@ var Canvas2D = Base.extend({
 		return this.context;
 	},
 
-	clear : function() {
+	clearContext : function() {
+    console.log(this.width)
 		this.context.clearRect(0,0,this.width,this.height);
 	}
+})
+
+var Engine = Base.extend({
+  _objects : [],
+  _context : undefined,
+  _canvas  : undefined,
+
+  init : function(canvas) {
+    this._canvas = canvas;
+    this._context = canvas.getContext();
+  },
+
+  animate : function() {
+    this.update();
+    this.draw();
+  },
+
+  update : function() {
+
+  },
+
+  draw : function() {
+    this._canvas.clearContext();
+    $.each(this._objects, function(index,particle){
+      particle.draw();
+    })
+  },
+
+  pushParticle : function(part) {
+    this._objects.push(part);
+  }
 })
 
 var Sphere = Base.extend({
@@ -120,9 +153,34 @@ var Sphere = Base.extend({
 
 
 $(function(){
-  bg = new Canvas2D('background',{width: window.innerWidth,height: window.innerHeight-75});
+  var running = false;
+  bg = new Canvas2D('background',{width: window.innerWidth, height: window.innerHeight-75});
+  eng = new Engine(bg);
 	for(var i = 0; i < 20; i++){
-		var s = new Sphere(Math.random()*window.innerWidth,Math.random()*(innerHeight-75),Math.random()*10 + 5);
-		s.draw(bg.getContext());
+    eng.pushParticle(new Sphere(Math.random()*window.innerWidth,Math.random()*(innerHeight-75),Math.random()*10 + 5));
 	}
+
+  eng.animate();
+  // $.each(dots, function(i,v){
+  //   v.draw(bg.getContext());
+  // })
+
+  // $('body').mousemove(function(event){
+  //   if(!running) {
+  //     setTimeout(function(){
+  //       bg.clearContext();
+  //       x = event.pageX
+  //       y = event.pageY
+  //       console.log('running'+x+'-'+y)
+
+  //       $.each(dots, function(i,v){
+  //         v.x = v.x - ((v.x - x) / 50);
+  //         v.y = v.y - ((v.y - y) / 50);
+  //         v.draw(bg.getContext());
+  //       })
+  //       running = false
+  //     }, 1)
+  //     running = true;  
+  //   }
+  // })
 });
