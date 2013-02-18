@@ -10,11 +10,12 @@ There were several changes made to the queryAccess commands and fixes to the pro
 
 store.queryAccess callback now accepts all parameters from the correlated expose, with the last 2 arguments being accept and err.
 For example:
-```javascript
+
+{% highlight javascript %}
 store.queryAccess('users', 'withEmail', function(email, accept, err) {
     return accept(true); // for now
 });
-```
+{% endhighlight %}
 
 Accept and err can also be defined as
 ```javascript
