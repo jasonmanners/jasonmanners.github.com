@@ -1,5 +1,5 @@
-===
 Daily Workout
+=======
 	- Static page that defines the daily workout
 	- Each exercise can be checked off
 	- Include a box for weigh in that day
