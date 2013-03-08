@@ -1,0 +1,96 @@
+---
+layout: post
+title: Setting up Derby and Derby Auth
+---
+
+{{ page.title }}
+================
+
+Ensure you have node installed
+
+Install derby
+>$ npm install -g derby
+
+You may need to use sudo depending on your settings
+
+Create a new project
+>$ derby new sample-project
+
+Once that is created
+>$ cd sample-project
+>$ node server.js
+
+Check that you can get to localhost:3000
+
+Then you want to switch the derby/racer packages to edge
+
+in package.json
+{% highlight javascript%}
+	dependencies : {
+		"derby" : "git://github.com/codeparty/derby#master",
+		"racer" : "git://github.com/codeparty/racer#master",
+	}
+{% endhighlight %}
+
+Then install the packages you have just added:
+
+>$ npm install
+
+You are now running on derby edge and when you run
+>$ node server.js
+
+You should now see the timer working correctly
+
+Derby Auth
+===========
+Authentication can be added in just a few step using Derby-Auth
+
+Add the following package to your dependencies
+{% highlight javascript%}
+	"derby-auth" : "git://github.com/lefnire/derby-auth#master",
+{% endhighlight %}
+
+Then insall your dependencies
+>$ npm install
+
+From here a few things need to be done
+
+First:
+Express needs to be able to parse forms and keep sessions so the following lines will need to be uncommented or added
+
+in server/index.js
+{% highlight javascript %}
+	// Uncomment to add form data parsing support
+  .use(express.bodyParser())
+  .use(express.methodOverride())
+
+  // Uncomment and supply secret to add Derby session handling
+  // Derby session middleware creates req.model and subscribes to _session
+  .use(express.cookieParser())
+  .use(store.sessionMiddleware({
+    secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE',
+    cookie: {maxAge: ONE_YEAR}
+  }))
+
+{% endhighlight %}
+
+They will come after the call to use express.compress() and before the call to use store.modelMiddleware()
+
+Now that that is set up time for the derby-auth specific calls
+
+Before the expressApp use section add the following:
+
+{% highlight javascript %}
+	var auth = require('derby-auth'),
+	    strategies = {},
+	    options = {
+	      domain: 'http://localhost:3000'
+	    };
+{% endhighlight %}
+
+If you want to integrate with any 3rd party see the derby-auth readme here: <LINK> You will be putting the different strategies into the currently empty strategies object
+
+The only other thing you will need to add to index/server.js is the following line after the call to use store.modelMiddleware()
+{% highlight javascript %}
+	.use(auth(store,strategies,options))
+{% endhighlight %}
