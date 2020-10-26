@@ -60,7 +60,6 @@
 			        y = getRandomInt(height);
 			 
 			    board[x][y] = true;
-			    console.log(x+":"+y);
 			  }
 			}
 			 
@@ -160,6 +159,7 @@
 			    stepCount++;
 			  }
 			  if(introduceRandomCount > 3000) {
+				  console.log("New Friends!");
 				board[3][5] = true;
 				board[4][5] = true;
 				board[5][5] = true;
