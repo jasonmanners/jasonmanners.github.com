@@ -1,7 +1,166 @@
----
-layout: default
-title: Jason Manners
----
-	<div class="title">
-		<h2><span class='blue-highlight'>Jason</span>Manners</h2>
-	</div>
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				font-family: arial;
+			}
+			.title {
+				color: rgba(0,0,0,0.83);
+		    margin: 150px auto;
+		    width: 100%;
+		    text-align: center;
+			}
+			.title h1 {
+				font-size: 80px;
+		    text-transform: uppercase;
+		    color: rgba(80,80,80,1.0);
+		    background-color: rgba(255,255,255,0.9);
+			}
+			.blue {
+				color: rgba(85,136,238,1.0);
+				font-weight: 100;
+			}
+			#conway_twitty {
+				position:absolute;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				z-index:-1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="title">
+			<h1 ><span class="blue">jason</span><span>manners TEST</span></h1>
+		</div>
+		<canvas width="500" height="500" id="conway_twitty"></canvas>
+		<script>
+			function initArr(x, y) {
+			  var res = [];
+			  for(var i = 0; i < x; i++) {
+			    res[i] = [];
+			    for(var i2 = 0; i2 < y; i2++) {
+			      res[i][i2] = false;
+			    }
+			  }  
+			 
+			  return res;
+			}
+			 
+			 
+			function getRandomInt(max) {
+			  return Math.floor(Math.random() * Math.floor(max));
+			}
+			 
+			function initGame(board, seed, width, height) {
+			  for(var i = 0; i < seed; i++) {
+			    var x = getRandomInt(width),
+			        y = getRandomInt(height);
+			 
+			    board[x][y] = true;
+			    console.log(x+":"+y);
+			  }
+			}
+			 
+			function step(board) {
+			  var evalBoard = JSON.parse(JSON.stringify(board))
+			  for(var i = 1; i < evalBoard.length-1; i++) {
+			    for(var j = 1; j < evalBoard[i].length-1; j++) {
+			      var neighbors = [];
+			      neighbors.push(evalBoard[i-1][j-1]);
+			      neighbors.push(evalBoard[i-1][j]);
+			      neighbors.push(evalBoard[i-1][j+1]);
+			      neighbors.push(evalBoard[i][j-1]);
+			      neighbors.push(evalBoard[i][j+1]);
+			      neighbors.push(evalBoard[i+1][j-1]);
+			      neighbors.push(evalBoard[i+1][j]);
+			      neighbors.push(evalBoard[i+1][j+1]);
+			 
+			      var liveNeighbors = neighbors.reduce(function(previous, next){
+			        if(next) {
+			          return previous + 1;
+			        }
+			 
+			        return previous;
+			      }, 0);
+			 
+			      /*
+			        Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
+			        Any live cell with two or three live neighbours lives on to the next generation.
+			        Any live cell with more than three live neighbours dies, as if by overpopulation.
+			        Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+			      */
+			      if(board[i][j]) {
+			        if(liveNeighbors < 2 || liveNeighbors > 3) {
+			          board[i][j] = false;
+			        }
+			      }
+			      else if(liveNeighbors == 3){
+			        board[i][j] = true; 
+			      }
+			    }
+			  }
+			}
+			 
+			function draw(board, x, y) {
+			  var TILE_SIZE = 10;
+			  var canvas = document.getElementById('conway_twitty');
+			  if (canvas.getContext) {
+			    var ctx = canvas.getContext('2d');
+			    ctx.clearRect(0, 0, x * TILE_SIZE, y * TILE_SIZE);
+			 
+			    for(var i = 1; i < board.length-1; i++) {
+			      var row = "";
+			      for(var j = 1; j < board[i].length-1; j++) {
+			        if(board[i][j]) {
+			          ctx.beginPath();
+			          ctx.rect(i*TILE_SIZE, j*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			          ctx.fillStyle="rgba(85,136,238,0.3)";
+								ctx.fill();
+			          ctx.strokeStyle ="rgba(0,0,0,0.5)";
+			          ctx.stroke();
+			          // ctx.strokeRect(i*TILE_SIZE, j*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			        }
+			      }
+			    }
+			  }
+			}
+			 
+			 
+			var canvas = document.getElementById('conway_twitty');
+			canvas.height = window.innerHeight;
+			canvas.width = window.innerWidth;
+			var width  = window.innerWidth / 10;
+			var height = window.innerHeight / 10;
+
+			var board = initArr(width, height);
+			initGame(board, window.innerHeight, width, height);
+			 
+			board[3][5] = true;
+			board[4][5] = true;
+			board[5][5] = true;
+			 
+			board[20][10] = true;
+			board[21][10] = true;
+			board[22][10] = true;
+			 
+			var start = null;
+			var stepCount = 0;
+			function step_anim(timestamp) {
+			  if (!start) start = timestamp;
+			  var progress = timestamp - start;
+			  if (progress > 100 && stepCount < 100) {
+			    step(board);
+			    draw(board, width, height);
+			    start = timestamp;
+			    stepCount++;
+			  }
+			  window.requestAnimationFrame(step_anim);
+			}
+			 
+			window.requestAnimationFrame(step_anim);
+		</script>
+	</body>
+</html>
