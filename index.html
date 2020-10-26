@@ -38,10 +38,10 @@
 		<canvas width="500" height="500" id="conway_twitty"></canvas>
 		<script>
 			function initArr(x, y) {
-			  var res = [];
-			  for(var i = 0; i < x; i++) {
+				let res = [];
+			  for(let i = 0; i < x; i++) {
 			    res[i] = [];
-			    for(var i2 = 0; i2 < y; i2++) {
+			    for(let i2 = 0; i2 < y; i2++) {
 			      res[i][i2] = false;
 			    }
 			  }  
@@ -55,8 +55,8 @@
 			}
 			 
 			function initGame(board, seed, width, height) {
-			  for(var i = 0; i < seed; i++) {
-			    var x = getRandomInt(width),
+			  for(let i = 0; i < seed; i++) {
+			    let x = getRandomInt(width),
 			        y = getRandomInt(height);
 			 
 			    board[x][y] = true;
@@ -64,10 +64,10 @@
 			}
 			 
 			function step(board) {
-			  var evalBoard = JSON.parse(JSON.stringify(board))
-			  for(var i = 1; i < evalBoard.length-1; i++) {
-			    for(var j = 1; j < evalBoard[i].length-1; j++) {
-			      var neighbors = [];
+				let evalBoard = JSON.parse(JSON.stringify(board))
+			  for(let i = 1; i < evalBoard.length-1; i++) {
+			    for(let j = 1; j < evalBoard[i].length-1; j++) {
+					let neighbors = [];
 			      neighbors.push(evalBoard[i-1][j-1]);
 			      neighbors.push(evalBoard[i-1][j]);
 			      neighbors.push(evalBoard[i-1][j+1]);
@@ -77,7 +77,7 @@
 			      neighbors.push(evalBoard[i+1][j]);
 			      neighbors.push(evalBoard[i+1][j+1]);
 			 
-			      var liveNeighbors = neighbors.reduce(function(previous, next){
+			      let liveNeighbors = neighbors.reduce(function(previous, next){
 			        if(next) {
 			          return previous + 1;
 			        }
@@ -104,15 +104,15 @@
 			}
 			 
 			function draw(board, x, y) {
-			  var TILE_SIZE = 10;
-			  var canvas = document.getElementById('conway_twitty');
+				let TILE_SIZE = 10;
+			  let canvas = document.getElementById('conway_twitty');
 			  if (canvas.getContext) {
-			    var ctx = canvas.getContext('2d');
+			    let ctx = canvas.getContext('2d');
 			    ctx.clearRect(0, 0, x * TILE_SIZE, y * TILE_SIZE);
 			 
-			    for(var i = 1; i < board.length-1; i++) {
-			      var row = "";
-			      for(var j = 1; j < board[i].length-1; j++) {
+			    for(let i = 1; i < board.length-1; i++) {
+					let row = "";
+			      for(let j = 1; j < board[i].length-1; j++) {
 			        if(board[i][j]) {
 			          ctx.beginPath();
 			          ctx.rect(i*TILE_SIZE, j*TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -128,13 +128,13 @@
 			}
 			 
 			 
-			var canvas = document.getElementById('conway_twitty');
+			let canvas = document.getElementById('conway_twitty');
 			canvas.height = window.innerHeight;
 			canvas.width = window.innerWidth;
-			var width  = window.innerWidth / 10;
-			var height = window.innerHeight / 10;
+			let width  = window.innerWidth / 10;
+			let height = window.innerHeight / 10;
 
-			var board = initArr(width, height);
+			let board = initArr(width, height);
 			initGame(board, window.innerHeight, width, height);
 			 
 			board[3][5] = true;
@@ -145,12 +145,12 @@
 			board[21][10] = true;
 			board[22][10] = true;
 			 
-			var start = null;
-			var stepCount = 0;
-			const introduceRandomCount = 0;
+			let start = null;
+			let stepCount = 0;
+			let introduceRandomCount = 0;
 			function step_anim(timestamp) {
 			  if (!start) start = timestamp;
-			  var progress = timestamp - start;
+			  let progress = timestamp - start;
 			  introduceRandomCount += progress;
 			  if (progress > 200 && stepCount < 100) {
 			    step(board);
