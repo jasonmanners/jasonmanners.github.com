@@ -152,19 +152,19 @@
 			  if (!start) start = timestamp;
 			  let progress = timestamp - start;
 			  introduceRandomCount += progress;
-			  if (progress > 200 && stepCount < 100) {
+			  if (progress > 100 && stepCount < 100) {
 			    step(board);
 			    draw(board, width, height);
 			    start = timestamp;
 			    stepCount++;
 			  }
-			//   if(introduceRandomCount > 10000) {
-			// 	console.log("New Friends!");
-			// 	board[3][5] = true;
-			// 	board[4][5] = true;
-			// 	board[5][5] = true;
-			// 	introduceRandomCount = 0;
-			//   }
+			  if(introduceRandomCount > 10000) {
+				console.log("New Friends!");
+				board[3][5] = true;
+				board[4][5] = true;
+				board[5][5] = true;
+				introduceRandomCount = 0;
+			  }
 			  window.requestAnimationFrame(step_anim);
 			}
 			 
