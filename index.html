@@ -148,14 +148,22 @@
 			 
 			var start = null;
 			var stepCount = 0;
+			const introduceRandomCount = 0;
 			function step_anim(timestamp) {
 			  if (!start) start = timestamp;
 			  var progress = timestamp - start;
-			  if (progress > 100 && stepCount < 100) {
+			  introduceRandomCount += progress;
+			  if (progress > 200 && stepCount < 100) {
 			    step(board);
 			    draw(board, width, height);
 			    start = timestamp;
 			    stepCount++;
+			  }
+			  if(introduceRandomCount > 3000) {
+				board[3][5] = true;
+				board[4][5] = true;
+				board[5][5] = true;
+				introduceRandomCount = 0;
 			  }
 			  window.requestAnimationFrame(step_anim);
 			}
